@@ -1,0 +1,76 @@
+#include "SoftPhys.h"
+
+
+NAMESPACE_UPP
+namespace SoftPhys {
+
+
+Body::Body() {
+	
+}
+
+
+mat43 Body::GetRotationAxisAngle() const {
+	TODO
+	return mat43();
+}
+
+Body& Body::SetWorld(World& w) {
+	world = &w;
+	return *this;
+}
+
+
+Body& Body::SetPosition(const vec3& v) {
+	position = v;
+	return *this;
+}
+
+Body& Body::SetMass(const Mass& m) {
+	mass = m;
+	return *this;
+}
+
+Body& Body::SetQuaternion(const quat& n) {
+	ASSERT(inited);
+    q[0] = n[0];
+    q[1] = n[1];
+    q[2] = n[2];
+    q[3] = n[3];
+    q.Normalize();
+    QtoR(q, posr.rot);
+	
+    // notify all attached geoms that this body has moved
+    for (Geometry *geom : geoms)
+        geom->OnBodyMove();
+    
+	return *this;
+}
+
+Body& Body::SetLinearVelocity(const vec3& v) {
+	linear_vel = v;
+	return *this;
+}
+
+Body& Body::SetAngularVelocity(const vec3& v) {
+	angular_vel = v;
+	return *this;
+}
+
+Body& Body::SetRotation(const vec3& axis, float angle) {
+	this->axis = axis;
+	this->angle = angle;
+	return *this;
+}
+
+Body& Body::SetMass(float kg) {
+	ASSERT(kg > 0);
+	mass.mass = kg;
+	inv_mass = 1.0f / kg;
+	return *this;
+}
+
+
+
+}
+END_UPP_NAMESPACE

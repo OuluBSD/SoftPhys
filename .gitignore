@@ -1,0 +1,14 @@
+# Build outputs
+/bin/
+*.exe
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.lib
+*.a
+
+# UppBuilder Staging & Cache
+/.uppbuilder/
+.theide
